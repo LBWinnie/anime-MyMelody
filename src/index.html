@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>美乐蒂 FOR ^U^</title>
+  </head>
+  <body>
+    <style id="codeHtml"></style>
+    <div id="codeText"></div>
+    <div id="buttons">
+      <button id="btnPause">暂停</button>
+      <button id="btnPlay">播放</button>
+      <button id="btnSlow">慢速</button>
+      <button id="btnNormal">中速</button>
+      <button id="btnFast">快速</button>
+    </div>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+      #buttons {
+        position: fixed;
+        right: 0;
+        top: 0;
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+        margin-top: 10px;
+        margin-right: 10px;
+      }
+      #buttons > button {
+        margin-bottom: 10px;
+        padding: 4px 8px;
+      }
+      #codeHtml {
+        display: none;
+      }
+      #codeText {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        width: 50vw;
+        overflow-y: auto;
+      }
+      #codeText::-webkit-scrollbar {
+        display: none;
+      }
+      .MyMelody {
+        border: 2px solid transparent;
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        height: 100vh;
+        width: 50vw;
+      }
+      .painting {
+        border: 1px solid transparent;
+        width: 500px;
+        height: 500px;
+        position: relative;
+        top: 50%;
+        left: 50%;
+        margin-left: -250px;
+        margin-top: -250px;
+      }
+      @media (max-width: 500px) {
+        .MyMelody {
+          border: 2px solid transparent;
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          height: 50vh;
+          width: 100vw;
+        }
+        #codeText {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 50vh;
+          overflow-y: auto;
+        }
+      }
+      .head {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-left: -110px;
+        margin-top: -115px;
+        overflow: hidden;
+        position: relative;
+      }
+      .face {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-left: -65px;
+        margin-top: 5px;
+        position: relative;
+      }
+      .nose {
+        position: absolute;
+        left: 50%;
+        top: 46%;
+        margin-left: -8px;
+        z-index: 10;
+      }
+      .eye {
+        position: absolute;
+        top: 45%;
+        margin-top: -15px;
+        z-index: 2;
+      }
+      .eye.left {
+        left: 50%;
+        margin-left: -55px;
+      }
+      .eye.right {
+        right: 50%;
+        margin-right: -55px;
+      }
+      .cheek {
+        position: absolute;
+        top: 47%;
+        margin-top: 2px;
+      }
+      .cheek.left {
+        right: 5px;
+      }
+      .cheek.right {
+        left: 5px;
+      }
+      .ear {
+        position: absolute;
+        top: 170px;
+      }
+      .ear.left {
+        left: 90px;
+      }
+      .ear.right {
+        right: 90px;
+      }
+      .bowknot {
+        position: absolute;
+      }
+      .bowknot.middle {
+        top: 120px;
+        left: 50%;
+        margin-left: -10px;
+        z-index: 1;
+      }
+      .bowknot.left1 {
+        top: 90px;
+        right: 255px;
+        z-index: -1;
+      }
+      .bowknot.right1 {
+        top: 90px;
+        left: 255px;
+        z-index: -1;
+      }
+      .bowknot.left2 {
+        top: 110px;
+        right: 265px;
+        border-left: 0;
+      }
+      .bowknot.right2 {
+        top: 110px;
+        left: 265px;
+        border-right: 0;
+      }
+      .hand {
+        position: absolute;
+      }
+      .hand.left {
+        top: 264px;
+        right: 242px;
+      }
+      .hand.right {
+        top: 265px;
+        left: 245px;
+      }
+      .arm {
+        position: absolute;
+        z-index: -2;
+      }
+      .arm.left {
+        top: 275px;
+        right: 51%;
+      }
+      .arm.right {
+        top: 274px;
+        left: 52%;
+      }
+      .cloth {
+        position: absolute;
+        z-index: -1;
+      }
+      .cloth.left {
+        top: 274px;
+        left: 53%;
+      }
+      .cloth.right {
+        top: 276px;
+        right: 52%;
+      }
+      .meloBody {
+        position: absolute;
+        top: 55%;
+        left: 52%;
+        margin-left: -55px;
+        z-index: -3;
+      }
+      .tail {
+        position: absolute;
+        top: 63%;
+        left: 52%;
+        margin-left: -68px;
+        z-index: -4;
+      }
+      .leg {
+        position: absolute;
+        top: 68%;
+        z-index: -4;
+      }
+      .leg.right {
+        left: 47%;
+        margin-left: -20px;
+      }
+      .leg.left {
+        left: 56%;
+        margin-left: -40px;
+      }
+      .line {
+        position: absolute;
+        top: 70%;
+        left: 50%;
+      }
+      .line.L {
+        margin-left: -25px;
+      }
+      .line.R {
+        margin-left: 1px;
+      }
+      .heart.one {
+        position: absolute;
+        top: 64%;
+        left: 68%;
+      }
+      .heart.one > .left {
+        width: 18px;
+        height: 18px;
+        position: absolute;
+        bottom: 33px;
+        left: -33px;
+      }
+      .heart.one > .right {
+        width: 18px;
+        height: 18px;
+        position: absolute;
+        bottom: 33px;
+        right: -33px;
+      }
+      .heart.one > .bottom {
+        width: 18px;
+        height: 18px;
+      }
+      .heart.two {
+        position: absolute;
+        top: 60%;
+        left: 28%;
+      }
+      .heart.two > .left {
+        width: 15px;
+        height: 15px;
+        position: absolute;
+        bottom: 32px;
+        left: -32px;
+      }
+      .heart.two > .right {
+        width: 15px;
+        height: 15px;
+        position: absolute;
+        bottom: 32px;
+        right: -32px;
+      }
+      .heart.two > .bottom {
+        width: 15px;
+        height: 15px;
+      }
+      @keyframes beat {
+        0% {
+          transform: scale(1.1);
+        }
+        25% {
+          transform: scale(1.3);
+        }
+        50% {
+          transform: scale(1.1);
+        }
+        75% {
+          transform: scale(1.3);
+        }
+        100% {
+          transform: scale(1.1);
+        }
+      }
+      .heart {
+        display: inline-block;
+        transition: all 1s;
+        transform-origin: center;
+        animation: beat 3000ms infinite linear;
+      }
+    </style>
+    <div class="MyMelody">
+      <div class="painting">
+        <div class="head">
+          <div class="face">
+            <div class="eye left"></div>
+            <div class="eye right"></div>
+            <div class="nose"></div>
+            <div class="cheek left"></div>
+            <div class="cheek right"></div>
+          </div>
+        </div>
+        <div class="ear left"></div>
+        <div class="ear right"></div>
+        <div class="bowknot left1"></div>
+        <div class="bowknot left2"></div>
+        <div class="bowknot middle"></div>
+        <div class="bowknot right1"></div>
+        <div class="bowknot right2"></div>
+        <div class="hand left"></div>
+        <div class="hand right"></div>
+        <div class="arm left"></div>
+        <div class="arm right"></div>
+        <div class="cloth left"></div>
+        <div class="cloth right"></div>
+        <div class="meloBody"></div>
+        <div class="tail"></div>
+        <div class="leg left"></div>
+        <div class="line L"></div>
+        <div class="leg right"></div>
+        <div class="line R"></div>
+        <div class="heart one">
+          <div class="left"></div>
+          <div class="right"></div>
+          <div class="bottom"></div>
+        </div>
+        <div class="heart two">
+          <div class="left"></div>
+          <div class="right"></div>
+          <div class="bottom"></div>
+        </div>
+      </div>
+    </div>
+    <script src="show.js"></script>
+  </body>
+</html>
